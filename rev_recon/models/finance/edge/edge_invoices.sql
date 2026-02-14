@@ -1,4 +1,4 @@
-{{ config(materialized='view', schema='analytics') }}
+{{ config(materialized='view', schema='analytics_edge') }}
 
 select
   invoice_id,
@@ -7,4 +7,4 @@ select
   cast(loaded_at as timestamp) as loaded_at,
   currency,
   cast(amount as numeric) as amount
-from {{ ref('raw_erp_invoices') }}
+from {{ ref('raw_erp_invoices_edge') }}

@@ -11,11 +11,20 @@ with inv as (
 ),
 
 fx as (
+  {% if var('use_fx_snapshot', false) %}
+  select
+    fx_date,
+    currency,
+    rate_to_usd
+  from {{ ref('fx_rates_snapshot') }}
+  where dbt_valid_to is null
+  {% else %}
   select
     fx_date,
     currency,
     rate_to_usd
   from {{ ref('stg_fx_rates') }}
+  {% endif %}
 ),
 
 inv_fx as (

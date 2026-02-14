@@ -12,3 +12,27 @@ tests:
 
   - name: test_recon_tolerance
     description: Flags months where modeled vs GL revenue variance exceeds the tolerance.
+
+  - name: test_fx_rate_bounds
+    description: Ensures MXN FX rates stay within a reasonable range.
+
+  - name: test_credit_currency_matches_invoice
+    description: Validates credit note currency matches the invoice currency.
+
+  - name: test_edge_missing_fx_rate
+    description: Edge case. Flags invoices missing FX rates for their date/currency.
+
+  - name: test_edge_duplicate_fx_keys
+    description: Edge case. Ensures latest-FX logic yields one row per date/currency.
+
+  - name: test_edge_rounding_tolerance
+    description: Edge case. Validates conversion math within a rounding tolerance.
+
+  - name: test_edge_credit_currency_mismatch
+    description: Edge case. Flags credit notes in a different currency than invoices.
+
+  - name: test_edge_negative_invoice_net
+    description: Edge case. Ensures net math holds for negative invoices.
+
+  - name: test_edge_currency_casing
+    description: Edge case. Flags non-uppercase currency codes.

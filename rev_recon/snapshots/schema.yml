@@ -1,0 +1,18 @@
+version: 2
+
+snapshots:
+  - name: fx_rates_snapshot
+    description: Tracks historical FX rate changes by date and currency.
+    columns:
+      - name: fx_date
+        description: FX rate effective date.
+      - name: currency
+        description: Currency code.
+      - name: rate_to_usd
+        description: Conversion rate to USD.
+      - name: loaded_at
+        description: Source load timestamp.
+      - name: dbt_valid_from
+        description: Snapshot valid-from timestamp.
+      - name: dbt_valid_to
+        description: Snapshot valid-to timestamp.

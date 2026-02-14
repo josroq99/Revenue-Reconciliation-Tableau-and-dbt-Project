@@ -1,4 +1,12 @@
-{{ config(materialized='table', schema='analytics') }}
+{{
+  config(
+    materialized='incremental',
+    schema='analytics',
+    unique_key='invoice_id',
+    incremental_strategy='delete+insert',
+    on_schema_change='sync_all_columns'
+  )
+}}
 
 select
     b.invoice_id,
@@ -12,3 +20,8 @@ select
 from {{ ref('int_revenue_base') }} b
 left join {{ ref('int_credit_agg') }} c
   on b.invoice_id = c.invoice_id
+{% if is_incremental() %}
+where b.invoice_date >= (
+  select coalesce(max(invoice_date), '1900-01-01'::date) from {{ this }}
+)
+{% endif %}

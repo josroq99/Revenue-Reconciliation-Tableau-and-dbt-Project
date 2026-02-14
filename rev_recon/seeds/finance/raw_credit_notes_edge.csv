@@ -1,0 +1,3 @@
+credit_id,invoice_id,credit_date,loaded_at,currency,amount
+ECR1,EINV6,2025-01-12,2025-01-12 00:00:00,MXN,100
+ECR2,EINV3,2025-01-12,2025-01-12 00:00:00,USD,5

@@ -4,6 +4,7 @@ profile: rev_recon
 seed-paths: ["seeds/finance"]
 model-paths: ["models/finance"]
 macro-paths: ["macros"]
+snapshot-paths: ["snapshots"]
 
 clean-targets:
   - "target"

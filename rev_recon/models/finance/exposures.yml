@@ -1,0 +1,16 @@
+version: 2
+
+exposures:
+  - name: tableau_revenue_recon_dashboard
+    type: dashboard
+    maturity: high
+    description: >-
+      Tableau dashboard for finance reconciliation, showing FX-adjusted
+      modeled revenue, ledger revenue, and variance drivers.
+    owner:
+      name: Analytics Engineering
+      email: data-team@example.com
+    depends_on:
+      - ref('fct_revenue')
+      - ref('fct_revenue_recon_detail')
+      - ref('audit_revenue_vs_ledger')
