@@ -1,0 +1,15 @@
+name: rev_recon
+profile: rev_recon
+
+seed-paths: ["seeds/finance"]
+model-paths: ["models/finance"]
+macro-paths: ["macros"]
+
+clean-targets:
+  - "target"
+  - "dbt_packages"
+
+seeds:
+  rev_recon:
+    +schema: raw
+

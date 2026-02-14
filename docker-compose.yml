@@ -1,0 +1,36 @@
+version: "3.9"
+
+services:
+  postgres:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: analytics
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  dbt:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    working_dir: /app
+    depends_on:
+      - postgres
+    environment:
+      DBT_POSTGRES_HOST: postgres
+      DBT_POSTGRES_PORT: 5432
+      DBT_POSTGRES_USER: postgres
+      DBT_POSTGRES_PASSWORD: postgres
+      DBT_POSTGRES_DB: analytics
+      DBT_POSTGRES_SCHEMA: analytics
+      DBT_PROFILES_DIR: /app
+    volumes:
+      - ./rev_recon:/app
+    command: ["sleep", "infinity"]
+    tty: true
+
+volumes:
+  postgres_data:

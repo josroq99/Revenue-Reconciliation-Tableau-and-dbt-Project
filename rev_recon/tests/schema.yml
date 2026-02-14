@@ -1,0 +1,14 @@
+version: 2
+
+tests:
+  - name: test_fx_coverage
+    description: Ensures non-USD invoices have a valid FX rate.
+
+  - name: test_net_local_math
+    description: Validates gross minus credits equals net in local currency.
+
+  - name: test_net_revenue_non_negative
+    description: Checks that net revenue is not negative.
+
+  - name: test_recon_tolerance
+    description: Flags months where modeled vs GL revenue variance exceeds the tolerance.

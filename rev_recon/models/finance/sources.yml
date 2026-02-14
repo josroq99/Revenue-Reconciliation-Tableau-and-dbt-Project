@@ -1,0 +1,10 @@
+version: 2
+
+sources:
+  - name: raw
+    schema: analytics_raw
+    tables:
+      - name: raw_erp_invoices
+      - name: raw_credit_notes
+      - name: raw_fx_rates
+      - name: raw_gl_ledger

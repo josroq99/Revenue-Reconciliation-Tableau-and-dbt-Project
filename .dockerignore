@@ -1,0 +1,11 @@
+.git
+.venv
+.env
+**/__pycache__/
+**/*.pyc
+**/*.pyo
+**/*.pyd
+rev_recon/target
+rev_recon/logs
+rev_recon/dbt_packages
+rev_recon/dbt_internal_packages

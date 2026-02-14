@@ -1,0 +1,180 @@
+version: 2
+
+models:
+  - name: stg_invoices
+    description: Staging view of ERP invoices.
+    columns:
+      - name: invoice_id
+        description: Unique invoice identifier.
+        tests:
+          - not_null
+          - unique
+      - name: customer_id
+        description: Customer identifier on the invoice.
+      - name: invoice_date
+        description: Invoice date.
+        tests:
+          - not_null
+      - name: currency
+        description: Invoice currency code.
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['USD','MXN']
+      - name: amount
+        description: Gross invoice amount in local currency.
+        tests:
+          - not_null
+
+  - name: stg_credit_notes
+    description: Staging view of credit notes applied to invoices.
+    columns:
+      - name: credit_id
+        description: Unique credit note identifier.
+        tests:
+          - not_null
+          - unique
+      - name: invoice_id
+        description: Invoice identifier the credit applies to.
+        tests:
+          - not_null
+      - name: credit_date
+        description: Credit note date.
+      - name: currency
+        description: Credit note currency code.
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['USD','MXN']
+      - name: amount
+        description: Credit note amount in local currency.
+        tests:
+          - not_null
+
+  - name: stg_fx_rates
+    description: Daily foreign exchange rates to USD.
+    columns:
+      - name: fx_date
+        description: FX rate effective date.
+        tests:
+          - not_null
+      - name: currency
+        description: Currency code for the rate.
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['USD','MXN']
+      - name: rate_to_usd
+        description: Conversion rate from currency to USD.
+        tests:
+          - not_null
+
+  - name: stg_gl_ledger
+    description: Staging view of general ledger revenue entries.
+    columns:
+      - name: journal_id
+        description: GL journal entry identifier.
+      - name: period
+        description: Accounting period in YYYY-MM format.
+      - name: account
+        description: GL account name.
+      - name: amount_usd
+        description: Amount in USD.
+
+  - name: int_revenue_base
+    description: Invoice revenue converted to USD using FX rates.
+    columns:
+      - name: invoice_id
+        description: Invoice identifier.
+      - name: customer_id
+        description: Customer identifier.
+      - name: invoice_date
+        description: Invoice date.
+      - name: period
+        description: Invoice month in YYYY-MM format.
+      - name: currency
+        description: Invoice currency code.
+      - name: gross_amount
+        description: Gross invoice amount in local currency.
+      - name: rate_to_usd
+        description: FX rate used for conversion to USD.
+      - name: gross_revenue_usd
+        description: Gross invoice amount converted to USD.
+
+  - name: int_credit_agg
+    description: Aggregated credit amounts in USD per invoice.
+    columns:
+      - name: invoice_id
+        description: Invoice identifier.
+      - name: credit_usd
+        description: Total credit amount in USD for the invoice.
+
+  - name: fct_revenue
+    description: Net revenue fact table at invoice grain.
+    columns:
+      - name: invoice_id
+        description: Invoice identifier.
+      - name: customer_id
+        description: Customer identifier.
+      - name: invoice_date
+        description: Invoice date.
+      - name: period
+        description: Invoice month in YYYY-MM format.
+      - name: currency
+        description: Invoice currency code.
+      - name: gross_revenue_usd
+        description: Gross revenue in USD.
+      - name: credit_usd
+        description: Total credits in USD.
+      - name: net_revenue_usd
+        description: Net revenue in USD.
+
+  - name: fct_revenue_recon_detail
+    description: Invoice-level reconciliation details between modeled revenue and GL.
+    columns:
+      - name: invoice_id
+        description: Invoice identifier.
+        tests:
+          - not_null
+          - unique
+      - name: customer_id
+        description: Customer identifier.
+      - name: period
+        description: Invoice month in YYYY-MM format.
+        tests:
+          - not_null
+      - name: currency
+        description: Invoice currency code.
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['USD','MXN']
+      - name: gross_amount
+        description: Gross invoice amount in local currency.
+      - name: credit_amount
+        description: Total credit amount in local currency.
+      - name: net_amount_local
+        description: Net amount in local currency (gross minus credits).
+      - name: rate_to_usd
+        description: FX rate used for conversion to USD.
+        tests:
+          - not_null
+      - name: net_revenue_usd
+        description: Net revenue in USD.
+        tests:
+          - not_null
+      - name: abs_amount_usd
+        description: Absolute value of net revenue in USD.
+
+  - name: audit_revenue_vs_ledger
+    description: Monthly reconciliation between modeled revenue and GL revenue.
+    columns:
+      - name: period
+        description: Accounting period in YYYY-MM format.
+      - name: modeled_revenue_usd
+        description: Modeled revenue in USD.
+      - name: ledger_revenue_usd
+        description: GL revenue in USD.
+      - name: delta_usd
+        description: Modeled revenue minus GL revenue in USD.
+
