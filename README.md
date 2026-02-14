@@ -50,7 +50,8 @@ docker compose run --rm dbt dbt test --exclude tag:edge_cases
 
 ## Tableau Layer
 - Connect to Postgres and use the Gold models for dashboards.
-- (optional) Add Tableau workbook screenshots here.
+- Revenue Reconciliation Summary ![alt text](image.png)
+- Invoice Detail ![alt text](image-1.png)
 
 ## BI Lineage & Consumption
 - Tableau dashboard exposure is defined in dbt and linked to the gold models.
