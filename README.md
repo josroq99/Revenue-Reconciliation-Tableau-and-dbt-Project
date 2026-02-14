@@ -55,7 +55,7 @@ docker compose run --rm dbt dbt test --exclude tag:edge_cases
 
 ## BI Lineage & Consumption
 - Tableau dashboard exposure is defined in dbt and linked to the gold models.
-- Generate docs to view lineage from sources -> models -> Tableau.
+- ![alt text](image-2.png)
 
 ## Proof Points
 - Dockerized runtime with reproducible environment
